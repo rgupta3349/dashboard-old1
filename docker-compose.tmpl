@@ -1,10 +1,10 @@
 version: '3.4'
 
 services:
-  shardeum-dashboard2:
-    container_name: shardeum-dashboard2
+  shardeum-dashboard:
+    container_name: shardeum-dashboard
     # network_mode: 'host'
-    image: local-dashboard2
+    image: local-dashboard
     build:
       context: .
       dockerfile: Dockerfile
