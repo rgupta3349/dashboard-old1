@@ -186,8 +186,8 @@ while :; do
   fi
 done
 
-read -p "What base directory should the node use (defaults to ~/.shardeum or change to shardeum1 or shardeum2 & so on): " NODEHOME
-NODEHOME=${mkdir ~/.$NODEHOME}
+read -p "What base directory should the node use (defaults to ~/.shardeum ): " NODEHOME
+NODEHOME=${NODEHOME:-~/.shardeum}
 
 APPSEEDLIST="archiver-sphinx.shardeum.org"
 APPMONITOR="monitor-sphinx.shardeum.org"
