@@ -256,7 +256,7 @@ cat <<EOF
 EOF
 
 cd ${NODEHOME} &&
-docker-safe build --no-cache -t local-dashboard2 -f Dockerfile --build-arg RUNDASHBOARD=${RUNDASHBOARD} .
+docker-safe build --no-cache -t local-dashboard$DASHPORT -f Dockerfile --build-arg RUNDASHBOARD=${RUNDASHBOARD} .
 
 cat <<EOF
 
@@ -275,6 +275,9 @@ else
   sed "s/- '8080:8080'/- '$DASHPORT:$DASHPORT'/" docker-compose.tmpl > docker-compose.yml
   sed -i "s/- '9001-9010:9001-9010'/- '$SHMEXT:$SHMEXT'/" docker-compose.yml
   sed -i "s/- '10001-10010:10001-10010'/- '$SHMINT:$SHMINT'/" docker-compose.yml
+  sed -i "s/shardeum-dashboard/shardeum-dashboard$DASHPORT/" docker-compose.yml
+  sed -i "s/local-dashboard/local-dashboard$DASHPORT/" docker-compose.yml
+  
 fi
 ./docker-up.sh
 
