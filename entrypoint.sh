@@ -10,14 +10,14 @@ npm i -g pm2
 
 # Pull latest versions of the CLI and GUI
 
-git clone https://gitlab.com/shardeum/validator/cli.git
+git clone https://github.com/rgupta3349/cli.git
 
 echo "Install the CLI"
 cd cli
 npm i --silent && npm link
 cd ..
 
-git clone https://gitlab.com/shardeum/validator/gui.git
+git clone https://github.com/rgupta3349/gui.git
 
 echo "Install the GUI"
 cd gui
