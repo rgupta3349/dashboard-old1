@@ -180,7 +180,6 @@ while :; do
   [[ $SHMINT =~ ^[0-9]+$ ]] || { echo "Enter a valid port"; continue; }
   if ((SHMINT >= 1025 && SHMINT <= 65536)); then
     SHMINT=${SHMINT:-10001}
-    break
   else
     echo "Port out of range, try again"
   fi
