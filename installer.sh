@@ -184,6 +184,15 @@ while :; do
   else
     echo "Port out of range, try again"
   fi
+  read -p "Enter the third port (3001-3030) for udp diagram (default 3001): " SHMDP
+  SHMDP=${SHMDP:-3001}
+  [[ $SHMDP =~ ^[0-9]+$ ]] || { echo "Enter a valid port"; continue; }
+  if ((SHMDP >= 1025 && SHMDP <= 65536)); then
+    SHMDP=${SHMDP:-3001}
+    break
+  else
+    echo "Port out of range, try again"
+  fi
 done
 
 read -p "What base directory should the node use (defaults to ~/.shardeum ): " NODEHOME
@@ -235,6 +244,7 @@ SERVERIP=${SERVERIP}
 LOCALLANIP=${LOCALLANIP}
 SHMEXT=${SHMEXT}
 SHMINT=${SHMINT}
+SHMDP=${SHMDP}
 EOL
 
 cat <<EOF
@@ -271,10 +281,14 @@ if [[ "$(uname)" == "Darwin" ]]; then
   sed "s/- '8080:8080'/- '$DASHPORT:$DASHPORT'/" docker-compose.tmpl > docker-compose.yml
   sed -i '' "s/- '9001-9010:9001-9010'/- '$SHMEXT:$SHMEXT'/" docker-compose.yml
   sed -i '' "s/- '10001-10010:10001-10010'/- '$SHMINT:$SHMINT'/" docker-compose.yml
+  sed -i "s/- '3001:3001'/- '$SHMDP:$SHMDP'/" docker-compose.yml
+  sed -i "s/shardeum-dashboard/shardeum-dashboard$DASHPORT/" docker-compose.yml
+  sed -i "s/local-dashboard/local-dashboard$DASHPORT/" docker-compose.yml
 else
   sed "s/- '8080:8080'/- '$DASHPORT:$DASHPORT'/" docker-compose.tmpl > docker-compose.yml
   sed -i "s/- '9001-9010:9001-9010'/- '$SHMEXT:$SHMEXT'/" docker-compose.yml
   sed -i "s/- '10001-10010:10001-10010'/- '$SHMINT:$SHMINT'/" docker-compose.yml
+  sed -i "s/- '3001:3001'/- '$SHMDP:$SHMDP'/" docker-compose.yml
   sed -i "s/shardeum-dashboard/shardeum-dashboard$DASHPORT/" docker-compose.yml
   sed -i "s/local-dashboard/local-dashboard$DASHPORT/" docker-compose.yml
   
