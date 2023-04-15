@@ -186,8 +186,8 @@ while :; do
   fi
 done
 
-read -p "What base directory should the node use (defaults to ~/.shardeum2): " NODEHOME
-NODEHOME=${NODEHOME:-~/.shardeum2}
+read -p "What base directory should the node use (defaults to ~/.shardeum): " NODEHOME
+NODEHOME=${NODEHOME:-~/.shardeum}
 
 APPSEEDLIST="archiver-sphinx.shardeum.org"
 APPMONITOR="monitor-sphinx.shardeum.org"
@@ -209,7 +209,7 @@ if [ -d "$NODEHOME" ]; then
   fi
 fi
 
-git clone https://github.com/rgupta3349/dashboard.git ${NODEHOME} &&
+git clone https://gitlab.com/shardeum/validator/dashboard.git ${NODEHOME} &&
   cd ${NODEHOME} &&
   chmod a+x ./*.sh
 
@@ -256,7 +256,7 @@ cat <<EOF
 EOF
 
 cd ${NODEHOME} &&
-docker-safe build --no-cache -t local-dashboard$DASHPORT -f Dockerfile --build-arg RUNDASHBOARD=${RUNDASHBOARD} .
+docker-safe build --no-cache -t local-dashboard -f Dockerfile --build-arg RUNDASHBOARD=${RUNDASHBOARD} .
 
 cat <<EOF
 
@@ -275,14 +275,11 @@ else
   sed "s/- '8080:8080'/- '$DASHPORT:$DASHPORT'/" docker-compose.tmpl > docker-compose.yml
   sed -i "s/- '9001-9010:9001-9010'/- '$SHMEXT:$SHMEXT'/" docker-compose.yml
   sed -i "s/- '10001-10010:10001-10010'/- '$SHMINT:$SHMINT'/" docker-compose.yml
-  sed -i "s/shardeum-dashboard/shardeum-dashboard$DASHPORT/" docker-compose.yml
-  sed -i "s/local-dashboard/local-dashboard$DASHPORT/" docker-compose.yml
-  
 fi
 ./docker-up.sh
 
 echo "Starting image. This could take a while..."
-(docker-safe logs -f shardeum-dashboard2 &) | grep -q 'done'
+(docker-safe logs -f shardeum-dashboard &) | grep -q 'done'
 
 #Do not indent
 if [ $RUNDASHBOARD = "y" ]
@@ -302,8 +299,10 @@ fi
 cat <<EOF
 
 To use the Command Line Interface:
-        1. Navigate to the Shardeum home directory ($NODEHOME).
-        2. Enter the validator container with ./shell.sh.
-        3. Run "operator-cli --help" for commands
+	1. Navigate to the Shardeum home directory ($NODEHOME).
+	2. Enter the validator container with ./shell.sh.
+	3. Run "operator-cli --help" for commands
 
 EOF
+
+
