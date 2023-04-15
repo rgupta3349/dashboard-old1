@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   shardeum-dashboard:
-    container_name: shardeum-dashboard
+    container_name: shardeum-dashboard2
     # network_mode: 'host'
     image: local-dashboard
     build:
@@ -15,7 +15,7 @@ services:
     # restart: 'always'
     env_file: .env
     ports:
-      - '9001:9001'
-      - '10001:10001'
-      - '8080:8080'
-      - '3001:3001'
+      - '9002:9002'
+      - '10002:10002'
+      - '8082:8082'
+      - '3002:3002'
