@@ -1,4 +1,4 @@
-# HOW TO Install and Run a Shardeum Validator node
+# HOW TO Install and Run a Shardeum Validator node 1
 
 1. Prerequisites: Ensure `docker` and `docker-compose` are installed on your machine and included in the path of your shell:
 
